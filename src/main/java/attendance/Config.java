@@ -1,7 +1,10 @@
 package attendance;
 
 import attendance.controller.Controller;
+import attendance.domain.Attendance;
+import attendance.service.Service;
 import attendance.util.CsvLoader;
+import attendance.util.CsvMapper;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 
@@ -16,35 +19,52 @@ public class Config {
     private OutputView outputView;
     private Controller controller;
     private CsvLoader csvLoader;
+    private Service service;
 
-    public InputView inputView() {
+    public Controller controller() {
+        if (controller == null) {
+            controller = new Controller(inputView(), outputView(), service());
+        }
+        return controller;
+    }
+
+    private InputView inputView() {
         if (inputView == null) {
             inputView = new InputView();
         }
         return inputView;
     }
 
-    public OutputView outputView() {
+    private OutputView outputView() {
         if (outputView == null) {
             outputView = new OutputView();
         }
         return outputView;
     }
 
-    public Controller controller() {
-        if (controller == null) {
-            controller = new Controller();
-        }
-        return controller;
-    }
-
-    public CsvLoader csvLoader() throws IOException {
+    private CsvLoader csvLoader() {
         if (csvLoader == null) {
-            csvLoader = new CsvLoader(CSV_PATH);
-            csvLoader.getRecords().stream()
-                    .map(Arrays::toString)
-                    .forEach(System.out::println);
+            try {
+                csvLoader = new CsvLoader(CSV_PATH);
+                csvLoader.getRecords().stream()
+                        .map(Arrays::toString)
+                        .forEach(System.out::println);
+            } catch (IOException exception) {
+                throw new IllegalStateException();
+            }
         }
         return csvLoader;
+    }
+
+    private Attendance attendance() {
+        CsvMapper csvMapper = new CsvMapper();
+        return csvMapper.toAttendances(csvLoader().getRecords());
+    }
+
+    private Service service() {
+        if (service == null) {
+            service = new Service(attendance());
+        }
+        return service;
     }
 }
