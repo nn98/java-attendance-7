@@ -1,12 +1,27 @@
 package attendance.service;
 
-import attendance.domain.Attendance;
+import attendance.domain.Attendances;
+import attendance.domain.Crew;
+import attendance.dto.AttendanceLine;
+import attendance.util.AttendanceMapper;
+
+import java.util.List;
 
 public class Service {
 
-    private final Attendance attendance;
+    private final Attendances attendances;
+    private final AttendanceMapper attendanceMapper;
 
-    public Service(Attendance attendance) {
-        this.attendance = attendance;
+    public Service(Attendances attendances) {
+        this.attendances = attendances;
+        this.attendanceMapper = new AttendanceMapper();
+    }
+
+    public void execute() {
+        this.attendances.printEveryAttendances();
+    }
+
+    public List<AttendanceLine> getAttendanceLinesByCrewName(String crewName) {
+        return attendanceMapper.toAttendanceLines(attendances.getAttendancesByCrewName(crewName));
     }
 }

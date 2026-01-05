@@ -1,7 +1,7 @@
 package attendance;
 
 import attendance.controller.Controller;
-import attendance.domain.Attendance;
+import attendance.domain.Attendances;
 import attendance.service.Service;
 import attendance.util.CsvLoader;
 import attendance.util.CsvMapper;
@@ -46,9 +46,6 @@ public class Config {
         if (csvLoader == null) {
             try {
                 csvLoader = new CsvLoader(CSV_PATH);
-                csvLoader.getRecords().stream()
-                        .map(Arrays::toString)
-                        .forEach(System.out::println);
             } catch (IOException exception) {
                 throw new IllegalStateException();
             }
@@ -56,14 +53,14 @@ public class Config {
         return csvLoader;
     }
 
-    private Attendance attendance() {
+    private Attendances attendances() {
         CsvMapper csvMapper = new CsvMapper();
         return csvMapper.toAttendances(csvLoader().getRecords());
     }
 
     private Service service() {
         if (service == null) {
-            service = new Service(attendance());
+            service = new Service(attendances());
         }
         return service;
     }

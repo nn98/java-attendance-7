@@ -1,7 +1,6 @@
 package attendance.controller;
 
 import attendance.service.Service;
-import attendance.util.CsvLoader;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 
@@ -17,7 +16,13 @@ public class Controller {
         this.service = service;
     }
 
-    public void run(CsvLoader csvLoader) {
+    public void run() {
+        service.execute();
+        printAttendanceLines();
+    }
 
+    public void printAttendanceLines() {
+        String crewName = inputView.readTrimmedLine();
+        outputView.printAttendanceLines(service.getAttendanceLinesByCrewName(crewName));
     }
 }
