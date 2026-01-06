@@ -3,7 +3,6 @@ package attendance.util;
 import attendance.domain.Attendance;
 import attendance.domain.Attendances;
 import attendance.domain.Crew;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CsvMapper {
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static Attendances toAttendances(List<String[]> records) {
         String[] labels = records.removeFirst();
@@ -36,7 +33,6 @@ public class CsvMapper {
             attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceTime));
             attendances.put(crew, attendanceHistory);
         }
-
         return attendances;
     }
 }

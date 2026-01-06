@@ -11,11 +11,13 @@ import java.util.Locale;
 
 public class AttendanceMapper {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+    private static final DateTimeFormatter DATE_TIME_TO_STRING =
             DateTimeFormatter.ofPattern("MM월 dd일 EEEE HH:mm", Locale.KOREAN);
+    private static final DateTimeFormatter STRING_TO_DATE_TIME =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREAN);
 
     public static Attendance dateTimeToAttendance(String dateTime) {
-        LocalDateTime attendanceDateTime = LocalDateTime.parse(dateTime.trim(), DATE_TIME_FORMATTER);
+        LocalDateTime attendanceDateTime = LocalDateTime.parse(dateTime.trim(), STRING_TO_DATE_TIME);
         Attendance attendance = new Attendance(attendanceDateTime);
         return attendance;
     }
@@ -26,7 +28,7 @@ public class AttendanceMapper {
             LocalDateTime attendanceTime = attendance.getAttendanceTime();
             Status attendanceStatus = attendance.getAttendanceStatus();
             AttendanceLine attendanceLine =
-                    new AttendanceLine(attendanceTime.format(DATE_TIME_FORMATTER), attendanceStatus.getKOREAN_STATUS());
+                    new AttendanceLine(attendanceTime.format(DATE_TIME_TO_STRING), attendanceStatus.getKOREAN_STATUS());
             attendanceLines.add(attendanceLine);
         });
         return attendanceLines;

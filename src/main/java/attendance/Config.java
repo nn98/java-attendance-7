@@ -1,6 +1,8 @@
 package attendance;
 
 import attendance.controller.Controller;
+import attendance.controller.InputHandler;
+import attendance.controller.InputTemplate;
 import attendance.domain.Attendances;
 import attendance.service.Service;
 import attendance.util.CsvLoader;
@@ -18,10 +20,12 @@ public class Config {
     private Controller controller;
     private CsvLoader csvLoader;
     private Service service;
+    private InputHandler inputHandler;
+    private InputTemplate inputTemplate;
 
     public Controller controller() {
         if (controller == null) {
-            controller = new Controller(inputView(), outputView(), service());
+            controller = new Controller(inputHandler(), outputView(), service());
         }
         return controller;
     }
@@ -60,5 +64,19 @@ public class Config {
             }
         }
         return csvLoader;
+    }
+
+    private InputHandler inputHandler() {
+        if (inputHandler == null) {
+            inputHandler = new InputHandler(inputView(), inputTemplate());
+        }
+        return inputHandler;
+    }
+
+    private InputTemplate inputTemplate() {
+        if (inputTemplate == null) {
+            inputTemplate = new InputTemplate();
+        }
+        return inputTemplate;
     }
 }

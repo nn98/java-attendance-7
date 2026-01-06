@@ -1,28 +1,23 @@
 package attendance.controller;
 
 import attendance.service.Service;
-import attendance.view.InputView;
 import attendance.view.OutputView;
 
 public class Controller {
 
-    private final InputView inputView;
+    private final InputHandler inputHandler;
     private final OutputView outputView;
     private final Service service;
 
-    public Controller(InputView inputView, OutputView outputView, Service service) {
-        this.inputView = inputView;
+    public Controller(InputHandler inputHandler, OutputView outputView, Service service) {
+        this.inputHandler = inputHandler;
         this.outputView = outputView;
         this.service = service;
     }
 
     public void run() {
         service.init();
+        Menu menu = inputHandler.inputMenu();
+        System.out.println(menu.name());
     }
-
-    public void print() {
-        String crewName = inputView.readTrimmedLine();
-        outputView.printAttendanceLines(service.getAttendanceLinesByCrewName(crewName));
-    }
-
 }

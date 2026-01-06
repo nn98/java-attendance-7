@@ -2,7 +2,7 @@ package attendance.util;
 
 public enum MissionError {
 
-    INVALID_INPUT("유효하지 않은 입력값입니다.");
+    INVALID_INPUT("잘못된 형식을 입력하였습니다.");
 
     private final String message;
 
