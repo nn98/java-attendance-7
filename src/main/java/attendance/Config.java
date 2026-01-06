@@ -9,7 +9,6 @@ import attendance.view.InputView;
 import attendance.view.OutputView;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Config {
 
@@ -54,8 +53,7 @@ public class Config {
     }
 
     private Attendances attendances() {
-        CsvMapper csvMapper = new CsvMapper();
-        return csvMapper.toAttendances(csvLoader().getRecords());
+        return CsvMapper.toAttendances(csvLoader().getRecords());
     }
 
     private Service service() {
