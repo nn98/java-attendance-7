@@ -1,7 +1,6 @@
 package attendance.service;
 
 import attendance.domain.Attendances;
-import attendance.domain.Crew;
 import attendance.dto.AttendanceLine;
 import attendance.util.AttendanceMapper;
 
@@ -17,7 +16,7 @@ public class Service {
         this.attendanceMapper = new AttendanceMapper();
     }
 
-    public void execute() {
+    public void init() {
         this.attendances.printEveryAttendances();
     }
 

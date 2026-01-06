@@ -3,10 +3,13 @@ package attendance.util;
 import attendance.domain.Attendance;
 import attendance.domain.Attendances;
 import attendance.domain.Crew;
-
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CsvMapper {
 
@@ -22,7 +25,7 @@ public class CsvMapper {
     private static Map<Crew, List<Attendance>> generateAllCrewAttendances(List<String[]> records) {
         Map<Crew, List<Attendance>> attendances = new HashMap<>();
 
-        for (String[] record:records) {
+        for (String[] record : records) {
             String crewName = record[0].trim();
             String dateTime = record[1].trim();
             Crew crew = new Crew(crewName);

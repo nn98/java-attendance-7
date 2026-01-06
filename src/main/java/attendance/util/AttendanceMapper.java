@@ -1,14 +1,11 @@
 package attendance.util;
 
 import attendance.domain.Attendance;
-import attendance.domain.Crew;
 import attendance.domain.Status;
 import attendance.dto.AttendanceLine;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 

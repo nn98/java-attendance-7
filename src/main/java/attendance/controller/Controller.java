@@ -17,12 +17,12 @@ public class Controller {
     }
 
     public void run() {
-        service.execute();
-        printAttendanceLines();
+        service.init();
     }
 
-    public void printAttendanceLines() {
+    public void print() {
         String crewName = inputView.readTrimmedLine();
         outputView.printAttendanceLines(service.getAttendanceLinesByCrewName(crewName));
     }
+
 }

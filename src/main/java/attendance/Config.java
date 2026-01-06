@@ -7,7 +7,6 @@ import attendance.util.CsvLoader;
 import attendance.util.CsvMapper;
 import attendance.view.InputView;
 import attendance.view.OutputView;
-
 import java.io.IOException;
 
 public class Config {
@@ -41,6 +40,17 @@ public class Config {
         return outputView;
     }
 
+    private Service service() {
+        if (service == null) {
+            service = new Service(attendances());
+        }
+        return service;
+    }
+
+    private Attendances attendances() {
+        return CsvMapper.toAttendances(csvLoader().getRecords());
+    }
+
     private CsvLoader csvLoader() {
         if (csvLoader == null) {
             try {
@@ -50,16 +60,5 @@ public class Config {
             }
         }
         return csvLoader;
-    }
-
-    private Attendances attendances() {
-        return CsvMapper.toAttendances(csvLoader().getRecords());
-    }
-
-    private Service service() {
-        if (service == null) {
-            service = new Service(attendances());
-        }
-        return service;
     }
 }
