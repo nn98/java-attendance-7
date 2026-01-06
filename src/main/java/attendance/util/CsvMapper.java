@@ -30,6 +30,7 @@ public class CsvMapper {
 
             List<Attendance> attendanceHistory = attendances.getOrDefault(crew, new ArrayList<>());
             attendanceHistory.add(attendance);
+            attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceTime));
             attendances.put(crew, attendanceHistory);
         }
 
