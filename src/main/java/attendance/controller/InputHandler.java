@@ -17,4 +17,9 @@ public class InputHandler {
         Menu menu = Menu.findByCommand(command);
         return menu;
     }
+
+    public String inputCrewName() {
+        String crewName = inputView.readLine();
+        return crewName;
+    }
 }

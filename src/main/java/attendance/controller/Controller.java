@@ -20,4 +20,35 @@ public class Controller {
         Menu menu = inputHandler.inputMenu();
         System.out.println(menu.name());
     }
+
+    private void execute(Menu menu) {
+        if (menu.equals(Menu.INSERT)) {
+
+        }
+        if (menu.equals(Menu.UPDATE)) {
+
+        }
+        if (menu.equals(Menu.SELECT)) {
+
+        }
+        if (menu.equals(Menu.SEL_RISK)) {
+
+        }
+    }
+
+    private void insert() {
+    }
+
+    private void update() {
+
+    }
+
+    private void select() {
+        String crewName = inputHandler.inputCrewName();
+        service.getAttendanceLinesByCrewName(crewName);
+    }
+
+    private void select_risk() {
+
+    }
 }
