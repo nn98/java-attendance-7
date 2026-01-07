@@ -3,7 +3,9 @@ package attendance.util;
 import attendance.domain.Attendance;
 import attendance.domain.Status;
 import attendance.dto.AttendanceLine;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,25 @@ public class AttendanceMapper {
             DateTimeFormatter.ofPattern("MM월 dd일 EEEE HH:mm", Locale.KOREAN);
     private static final DateTimeFormatter STRING_TO_DATE_TIME =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREAN);
+    private static final DateTimeFormatter STRING_TO_TIME =
+            DateTimeFormatter.ofPattern("HH:mm", Locale.KOREAN);
 
-    public static Attendance dateTimeToAttendance(String dateTime) {
-        LocalDateTime attendanceDateTime = LocalDateTime.parse(dateTime.trim(), STRING_TO_DATE_TIME);
+    private static LocalDateTime parseAttendanceDateTime(String attendanceTime) {
+        if (attendanceTime.contains("-")) {
+            return LocalDateTime.parse(attendanceTime, STRING_TO_DATE_TIME);
+        }
+        LocalTime time = LocalTime.parse(attendanceTime, STRING_TO_TIME);
+        LocalDateTime dateTime = LocalDate.now().atTime(time);
+        return dateTime;
+    }
+
+    public static Attendance todayTimeToAttendance(String attendanceTime) {
+        Attendance attendance = new Attendance(parseAttendanceDateTime(attendanceTime));
+        return attendance;
+    }
+
+    public static Attendance dateTimeToAttendance(String attendanceTime) {
+        LocalDateTime attendanceDateTime = LocalDateTime.parse(attendanceTime.trim(), STRING_TO_DATE_TIME);
         Attendance attendance = new Attendance(attendanceDateTime);
         return attendance;
     }

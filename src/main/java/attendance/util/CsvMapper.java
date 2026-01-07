@@ -28,7 +28,8 @@ public class CsvMapper {
             Crew crew = new Crew(crewName);
             Attendance attendance = AttendanceMapper.dateTimeToAttendance(dateTime);
 
-            List<Attendance> attendanceHistory = attendances.getOrDefault(crew, new ArrayList<>());
+            attendances.computeIfAbsent(crew, attendanceList -> new ArrayList<>());
+            List<Attendance> attendanceHistory = attendances.get(crew);
             attendanceHistory.add(attendance);
             attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceTime));
             attendances.put(crew, attendanceHistory);

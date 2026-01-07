@@ -3,7 +3,6 @@ package attendance.service;
 import attendance.domain.Attendances;
 import attendance.dto.AttendanceLine;
 import attendance.util.AttendanceMapper;
-
 import java.util.List;
 
 public class Service {
@@ -23,4 +22,9 @@ public class Service {
     public List<AttendanceLine> getAttendanceLinesByCrewName(String crewName) {
         return attendanceMapper.toAttendanceLines(attendances.getAttendancesByCrewName(crewName));
     }
+
+    public void insertAttendance(String crewName, String attendanceTime) {
+        attendances.insertAttendanceIfCrewExist(crewName, attendanceTime);
+    }
+
 }

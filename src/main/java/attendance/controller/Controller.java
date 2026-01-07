@@ -17,8 +17,11 @@ public class Controller {
 
     public void run() {
         service.init();
-        Menu menu = inputHandler.inputMenu();
-        System.out.println(menu.name());
+        Menu menu;
+        do {
+            menu = inputHandler.inputMenu();
+            System.out.println(menu.name());
+        } while (!menu.equals(Menu.QUIT));
     }
 
     private void execute(Menu menu) {
@@ -37,6 +40,9 @@ public class Controller {
     }
 
     private void insert() {
+        String crewName = inputHandler.inputCrewName();
+        String attendanceTime = inputHandler.inputAttendanceTime();
+        service.insertAttendance(crewName, attendanceTime);
     }
 
     private void update() {

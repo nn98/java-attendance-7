@@ -1,5 +1,7 @@
 package attendance.domain;
 
+import attendance.util.AttendanceMapper;
+import attendance.util.MissionError;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +21,21 @@ public class Attendances {
     }
 
     public List<Attendance> getAttendancesByCrewName(String crewName) {
-        Crew target = new Crew(crewName);
-        return attendances.get(target);
+        Crew crew = new Crew(crewName);
+        return attendances.get(crew);
+    }
+
+    public void insertAttendanceIfCrewExist(String crewName, String attendanceTime) {
+        List<Attendance> attendanceList = getAttendancesByCrewName(crewName);
+        Attendance attendance = AttendanceMapper.todayTimeToAttendance(attendanceTime);
+        attendanceList.add(attendance);
+    }
+
+    public Crew getCrewIfExist(String crewName) {
+        Crew crew = new Crew(crewName);
+        return attendances.keySet().stream()
+                .filter(c -> c.equals(crew))
+                .findFirst()
+                .orElseThrow(MissionError.NON_EXIST_CREW::exception);
     }
 }

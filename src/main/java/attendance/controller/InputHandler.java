@@ -22,4 +22,9 @@ public class InputHandler {
         String crewName = inputView.readLine();
         return crewName;
     }
+
+    public String inputAttendanceTime() {
+        String attendanceTime = inputView.readLine();
+        return attendanceTime;
+    }
 }
