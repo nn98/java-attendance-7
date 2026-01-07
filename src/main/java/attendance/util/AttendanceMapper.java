@@ -3,6 +3,7 @@ package attendance.util;
 import attendance.domain.Attendance;
 import attendance.domain.Status;
 import attendance.dto.AttendanceLine;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,8 +26,8 @@ public class AttendanceMapper {
             return LocalDateTime.parse(attendanceTime, STRING_TO_DATE_TIME);
         }
         LocalTime time = LocalTime.parse(attendanceTime, STRING_TO_TIME);
-        LocalDateTime dateTime = LocalDate.now().atTime(time);
-        return dateTime;
+        LocalDate date = DateTimes.now().toLocalDate();
+        return LocalDateTime.of(date, time);
     }
 
     public static Attendance todayTimeToAttendance(String attendanceTime) {
@@ -42,13 +43,15 @@ public class AttendanceMapper {
 
     public static List<AttendanceLine> toAttendanceLines(List<Attendance> attendances) {
         List<AttendanceLine> attendanceLines = new ArrayList<>();
-        attendances.forEach(attendance -> {
-            LocalDateTime attendanceTime = attendance.getAttendanceTime();
-            Status attendanceStatus = attendance.getAttendanceStatus();
-            AttendanceLine attendanceLine =
-                    new AttendanceLine(attendanceTime.format(DATE_TIME_TO_STRING), attendanceStatus.getKOREAN_STATUS());
-            attendanceLines.add(attendanceLine);
-        });
+        attendances.forEach(attendance -> attendanceLines.add(toAttendanceLine(attendance)));
         return attendanceLines;
+    }
+
+    public static AttendanceLine toAttendanceLine(Attendance attendance) {
+        LocalDateTime attendanceTime = attendance.getAttendanceTime();
+        Status attendanceStatus = attendance.getAttendanceStatus();
+        AttendanceLine attendanceLine =
+                new AttendanceLine(attendanceTime.format(DATE_TIME_TO_STRING), attendanceStatus.getKOREAN_STATUS());
+        return attendanceLine;
     }
 }

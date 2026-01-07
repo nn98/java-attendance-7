@@ -1,7 +1,11 @@
 package attendance.domain;
 
+import attendance.dto.AttendanceLine;
 import attendance.util.AttendanceMapper;
 import attendance.util.MissionError;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,15 +13,20 @@ public class Attendances {
 
     Map<Crew, List<Attendance>> attendances;
 
-    public Attendances(Map<Crew, List<Attendance>> attendances) {
-        this.attendances = attendances;
+    public Attendances() {
+        this.attendances = new HashMap<>();
     }
 
-    public void printEveryAttendances() {
-        attendances.forEach((key, value) -> {
-            System.out.println(key);
-            System.out.println("\t" + value);
-        });
+    public void insertAttendance(String crewName, Attendance attendance) {
+        Crew crew = new Crew(crewName);
+        insertAttendance(crew, attendance);
+    }
+
+    public AttendanceLine insertAttendance(Crew crew, Attendance attendance) {
+        List<Attendance> attendanceHistory = attendances.computeIfAbsent(crew, attendanceList -> new ArrayList<>());
+        attendanceHistory.add(attendance);
+        attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceTime));
+        return AttendanceMapper.toAttendanceLine(attendance);
     }
 
     public List<Attendance> getAttendancesByCrewName(String crewName) {
@@ -25,10 +34,10 @@ public class Attendances {
         return attendances.get(crew);
     }
 
-    public void insertAttendanceIfCrewExist(String crewName, String attendanceTime) {
-        List<Attendance> attendanceList = getAttendancesByCrewName(crewName);
+    public AttendanceLine insertAttendanceIfCrewExist(String crewName, String attendanceTime) {
+        Crew crew = getCrewIfExist(crewName);
         Attendance attendance = AttendanceMapper.todayTimeToAttendance(attendanceTime);
-        attendanceList.add(attendance);
+        return insertAttendance(crew, attendance);
     }
 
     public Crew getCrewIfExist(String crewName) {

@@ -16,15 +16,14 @@ public class Service {
     }
 
     public void init() {
-        this.attendances.printEveryAttendances();
     }
 
     public List<AttendanceLine> getAttendanceLinesByCrewName(String crewName) {
         return attendanceMapper.toAttendanceLines(attendances.getAttendancesByCrewName(crewName));
     }
 
-    public void insertAttendance(String crewName, String attendanceTime) {
-        attendances.insertAttendanceIfCrewExist(crewName, attendanceTime);
+    public AttendanceLine insertAttendance(String crewName, String attendanceTime) {
+        return attendances.insertAttendanceIfCrewExist(crewName, attendanceTime);
     }
 
 }

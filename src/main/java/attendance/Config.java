@@ -5,8 +5,8 @@ import attendance.controller.InputHandler;
 import attendance.controller.InputTemplate;
 import attendance.domain.Attendances;
 import attendance.service.Service;
+import attendance.util.AttendancesInitializer;
 import attendance.util.CsvLoader;
-import attendance.util.CsvMapper;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import java.io.IOException;
@@ -19,6 +19,7 @@ public class Config {
     private OutputView outputView;
     private Controller controller;
     private CsvLoader csvLoader;
+    private AttendancesInitializer attendancesInitializer;
     private Service service;
     private InputHandler inputHandler;
     private InputTemplate inputTemplate;
@@ -52,7 +53,14 @@ public class Config {
     }
 
     private Attendances attendances() {
-        return CsvMapper.toAttendances(csvLoader().getRecords());
+        return attendancesInitializer().getAttendances();
+    }
+
+    private AttendancesInitializer attendancesInitializer() {
+        if (attendancesInitializer == null) {
+            attendancesInitializer = new AttendancesInitializer(csvLoader());
+        }
+        return attendancesInitializer;
     }
 
     private CsvLoader csvLoader() {

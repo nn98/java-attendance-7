@@ -22,7 +22,6 @@ public class Controller {
         Menu menu;
         do {
             menu = inputHandler.inputMenu();
-            System.out.println(menu.name());
             execute(menu);
         } while (!menu.equals(Menu.QUIT));
     }
@@ -45,7 +44,8 @@ public class Controller {
     private void insert() {
         String crewName = inputHandler.inputCrewName();
         String attendanceTime = inputHandler.inputAttendanceTime();
-        service.insertAttendance(crewName, attendanceTime);
+        AttendanceLine attendanceResult = service.insertAttendance(crewName, attendanceTime);
+        outputView.printLine(attendanceResult.toString());
     }
 
     private void update() {
