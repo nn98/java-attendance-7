@@ -18,7 +18,6 @@ public class Controller {
     }
 
     public void run() {
-        service.init();
         Menu menu;
         do {
             menu = inputHandler.inputMenu();
@@ -42,7 +41,11 @@ public class Controller {
     }
 
     private void insert() {
+        service.isSchoolDay();
+
         String crewName = inputHandler.inputCrewName();
+        service.isCrewExist(crewName);
+
         String attendanceTime = inputHandler.inputAttendanceTime();
         AttendanceLine attendanceResult = service.insertAttendance(crewName, attendanceTime);
         outputView.printLine(attendanceResult.toString());

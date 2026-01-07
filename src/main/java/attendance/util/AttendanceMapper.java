@@ -22,12 +22,16 @@ public class AttendanceMapper {
             DateTimeFormatter.ofPattern("HH:mm", Locale.KOREAN);
 
     private static LocalDateTime parseAttendanceDateTime(String attendanceTime) {
-        if (attendanceTime.contains("-")) {
-            return LocalDateTime.parse(attendanceTime, STRING_TO_DATE_TIME);
+        try {
+            if (attendanceTime.contains("-")) {
+                return LocalDateTime.parse(attendanceTime, STRING_TO_DATE_TIME);
+            }
+            LocalTime time = LocalTime.parse(attendanceTime, STRING_TO_TIME);
+            LocalDate date = DateTimes.now().toLocalDate();
+            return LocalDateTime.of(date, time);
+        } catch (Exception exception) {
+            throw MissionError.INVALID_INPUT.exception();
         }
-        LocalTime time = LocalTime.parse(attendanceTime, STRING_TO_TIME);
-        LocalDate date = DateTimes.now().toLocalDate();
-        return LocalDateTime.of(date, time);
     }
 
     public static Attendance todayTimeToAttendance(String attendanceTime) {

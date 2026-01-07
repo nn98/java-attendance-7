@@ -41,6 +41,7 @@ public class Attendances {
     }
 
     public Crew getCrewIfExist(String crewName) {
+        System.out.println(crewName);
         Crew crew = new Crew(crewName);
         return attendances.keySet().stream()
                 .filter(c -> c.equals(crew))

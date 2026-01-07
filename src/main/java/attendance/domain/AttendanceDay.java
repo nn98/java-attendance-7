@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.util.MissionError;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,10 +26,22 @@ public enum AttendanceDay {
     }
 
     public static AttendanceDay valueOf(LocalDateTime dateTime) {
+        return findByDayOfWeek(dateTime.getDayOfWeek());
+    }
+
+    public static AttendanceDay findByDayOfWeek(DayOfWeek dayOfWeek) {
         return Arrays.stream(AttendanceDay.values())
-                .filter(attendanceDay -> attendanceDay.day == dateTime.getDayOfWeek())
+                .filter(attendanceDay -> attendanceDay.day.equals(dayOfWeek))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(MissionError.INVALID_INPUT::exception);
+    }
+
+    public static boolean isSchoolDay(DayOfWeek dayOfWeek) {
+        AttendanceDay attendanceDay = findByDayOfWeek(dayOfWeek);
+        if (attendanceDay.equals(AttendanceDay.SATURDAY) || attendanceDay.equals(AttendanceDay.SUNDAY)) {
+            return false;
+        }
+        return true;
     }
 
     public static Status checkStatusByDateTime(LocalDateTime dateTime) {
