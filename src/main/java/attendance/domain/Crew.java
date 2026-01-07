@@ -12,7 +12,9 @@ public class Crew {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Crew crew = (Crew) o;
         return Objects.equals(name, crew.name);
     }
@@ -20,5 +22,12 @@ public class Crew {
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Crew{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

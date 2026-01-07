@@ -1,7 +1,9 @@
 package attendance.controller;
 
+import attendance.dto.AttendanceLine;
 import attendance.service.Service;
 import attendance.view.OutputView;
+import java.util.List;
 
 public class Controller {
 
@@ -21,21 +23,22 @@ public class Controller {
         do {
             menu = inputHandler.inputMenu();
             System.out.println(menu.name());
+            execute(menu);
         } while (!menu.equals(Menu.QUIT));
     }
 
     private void execute(Menu menu) {
         if (menu.equals(Menu.INSERT)) {
-
+            insert();
         }
         if (menu.equals(Menu.UPDATE)) {
-
+            update();
         }
         if (menu.equals(Menu.SELECT)) {
-
+            select();
         }
         if (menu.equals(Menu.SEL_RISK)) {
-
+            select_risk();
         }
     }
 
@@ -51,7 +54,8 @@ public class Controller {
 
     private void select() {
         String crewName = inputHandler.inputCrewName();
-        service.getAttendanceLinesByCrewName(crewName);
+        List<AttendanceLine> attendanceLineList = service.getAttendanceLinesByCrewName(crewName);
+        outputView.printAttendanceLines(attendanceLineList);
     }
 
     private void select_risk() {
