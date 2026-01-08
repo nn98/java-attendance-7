@@ -2,6 +2,7 @@ package attendance.service;
 
 import attendance.domain.Attendance;
 import attendance.domain.AttendanceDay;
+import attendance.domain.AttendanceStatistics;
 import attendance.domain.Attendances;
 import attendance.dto.AttendanceLine;
 import attendance.dto.AttendanceUpdate;
@@ -59,5 +60,11 @@ public class Service {
         LocalDate targetDate = today.withDayOfMonth(updateDate);
         LocalDateTime updateDateTime = LocalDateTime.of(targetDate, LocalTime.parse(updateTime));
         return attendances.getAttendanceByCrewNameAndUpdateDateTime(crewName, updateDateTime);
+    }
+
+    public String getAttendanceStatisticsByCrewName(String crewName) {
+        List<Attendance> attendanceList = attendances.getAttendancesByCrewName(crewName);
+        AttendanceStatistics attendanceStatistics = new AttendanceStatistics(attendanceList);
+        return attendanceStatistics.toString();
     }
 }

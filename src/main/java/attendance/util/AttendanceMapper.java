@@ -5,7 +5,7 @@ import static attendance.common.Value.TIME_FORMAT;
 
 import attendance.common.Value;
 import attendance.domain.Attendance;
-import attendance.domain.Status;
+import attendance.domain.AttendanceStatus;
 import attendance.dto.AttendanceLine;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class AttendanceMapper {
     public static AttendanceLine toAttendanceLine(Attendance attendance) {
         LocalDate attendanceDate = attendance.getAttendanceDate();
         LocalTime attendanceTime = attendance.getAttendanceTime();
-        Status attendanceStatus = attendance.getAttendanceStatus();
+        AttendanceStatus attendanceStatus = attendance.getAttendanceStatus();
         AttendanceLine attendanceLine = new AttendanceLine(attendanceDate, attendanceTime, attendanceStatus);
         return attendanceLine;
     }

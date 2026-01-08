@@ -19,7 +19,7 @@ public class SchoolDays {
 
     private void generateSchoolDays(LocalDate today) {
         LocalDate start = today.withDayOfMonth(1);
-        for (LocalDate date = start; !date.isAfter(today); date = date.plusDays(1)) {
+        for (LocalDate date = start; !date.isEqual(today); date = date.plusDays(1)) {
             if (AttendanceDay.isSchoolDay(date.getDayOfWeek())) {
                 schoolDays.add(date);
             }

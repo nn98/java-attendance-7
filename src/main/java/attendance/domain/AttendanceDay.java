@@ -44,23 +44,23 @@ public enum AttendanceDay {
         return true;
     }
 
-    public static Status checkStatusByDateTime(LocalDateTime dateTime) {
+    public static AttendanceStatus checkStatusByDateTime(LocalDateTime dateTime) {
         AttendanceDay attendanceDay = valueOf(dateTime);
         if (attendanceDay == SATURDAY || attendanceDay == SUNDAY) {
-            return Status.NONE;
+            return AttendanceStatus.NONE;
         }
         Duration duration = Duration.between(attendanceDay.begin, dateTime.toLocalTime());
         return checkStatusByDuration(duration);
     }
 
-    private static Status checkStatusByDuration(Duration duration) {
+    private static AttendanceStatus checkStatusByDuration(Duration duration) {
         long minutes = duration.toMinutes();
         if (minutes > 30) {
-            return Status.ABSENCE;
+            return AttendanceStatus.ABSENCE;
         }
         if (minutes > 5) {
-            return Status.LATE;
+            return AttendanceStatus.LATE;
         }
-        return Status.PRESENT;
+        return AttendanceStatus.PRESENT;
     }
 }

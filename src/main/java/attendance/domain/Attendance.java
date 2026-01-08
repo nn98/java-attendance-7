@@ -8,7 +8,7 @@ public class Attendance {
 
     LocalDate attendanceDate;
     LocalTime attendanceTime;
-    Status attendanceStatus;
+    AttendanceStatus attendanceStatus;
 
     public Attendance(LocalDateTime attendanceTime) {
         this.attendanceDate = attendanceTime.toLocalDate();
@@ -19,7 +19,7 @@ public class Attendance {
     public Attendance(LocalDate attendanceDate) {
         this.attendanceDate = attendanceDate;
         this.attendanceTime = null;
-        this.attendanceStatus = Status.ABSENCE;
+        this.attendanceStatus = AttendanceStatus.ABSENCE;
     }
 
     public boolean comPareDate(LocalDate date) {
@@ -38,7 +38,7 @@ public class Attendance {
         return attendanceTime;
     }
 
-    public Status getAttendanceStatus() {
+    public AttendanceStatus getAttendanceStatus() {
         return attendanceStatus;
     }
 

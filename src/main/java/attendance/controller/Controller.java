@@ -67,7 +67,9 @@ public class Controller {
     private void select() {
         String crewName = inputHandler.inputCrewName();
         List<AttendanceLine> attendanceLineList = service.getAttendanceLinesByCrewName(crewName);
+        String attendanceStatistics = service.getAttendanceStatisticsByCrewName(crewName);
         outputView.printAttendanceLines(attendanceLineList);
+        outputView.printLine(attendanceStatistics);
     }
 
     private void select_risk() {
