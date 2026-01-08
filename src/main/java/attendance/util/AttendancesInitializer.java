@@ -8,10 +8,12 @@ public class AttendancesInitializer {
 
     private final Attendances attendances;
     private final CsvLoader csvLoader;
+    private final AttendanceMapper attendanceMapper;
 
-    public AttendancesInitializer(CsvLoader csvLoader) {
+    public AttendancesInitializer(CsvLoader csvLoader, AttendanceMapper attendanceMapper) {
         this.csvLoader = csvLoader;
         this.attendances = new Attendances();
+        this.attendanceMapper = attendanceMapper;
         generateAttendances();
     }
 
@@ -24,7 +26,7 @@ public class AttendancesInitializer {
     private void putRecordByAttendances(String[] record) {
         String crewName = record[0].trim();
         String attendanceDateTime = record[1].trim();
-        Attendance attendance = AttendanceMapper.dateTimeToAttendance(attendanceDateTime);
+        Attendance attendance = attendanceMapper.dateTimeToAttendance(attendanceDateTime);
         attendances.insertAttendance(crewName, attendance);
     }
 

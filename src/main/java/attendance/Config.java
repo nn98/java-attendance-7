@@ -5,11 +5,14 @@ import attendance.controller.InputHandler;
 import attendance.controller.InputTemplate;
 import attendance.domain.Attendances;
 import attendance.service.Service;
+import attendance.util.AttendanceMapper;
 import attendance.util.AttendancesInitializer;
 import attendance.util.CsvLoader;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import java.io.IOException;
+import java.time.Clock;
+import java.time.LocalDate;
 
 public class Config {
 
@@ -21,6 +24,9 @@ public class Config {
     private CsvLoader csvLoader;
     private AttendancesInitializer attendancesInitializer;
     private Service service;
+    private Clock clock;
+    private LocalDate today;
+    private AttendanceMapper attendanceMapper;
     private InputHandler inputHandler;
     private InputTemplate inputTemplate;
 
@@ -47,9 +53,30 @@ public class Config {
 
     private Service service() {
         if (service == null) {
-            service = new Service(attendances());
+            service = new Service(attendances(), attendanceMapper(), today());
         }
         return service;
+    }
+
+    private Clock clock() {
+        if (clock == null) {
+            clock = Clock.systemDefaultZone();
+        }
+        return clock;
+    }
+
+    private LocalDate today() {
+        if (today == null) {
+            today = LocalDate.now();
+        }
+        return today;
+    }
+
+    private AttendanceMapper attendanceMapper() {
+        if (attendanceMapper == null) {
+            attendanceMapper = new AttendanceMapper(today());
+        }
+        return attendanceMapper;
     }
 
     private Attendances attendances() {
@@ -58,7 +85,7 @@ public class Config {
 
     private AttendancesInitializer attendancesInitializer() {
         if (attendancesInitializer == null) {
-            attendancesInitializer = new AttendancesInitializer(csvLoader());
+            attendancesInitializer = new AttendancesInitializer(csvLoader(), attendanceMapper());
         }
         return attendancesInitializer;
     }

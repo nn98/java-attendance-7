@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Attendance {
@@ -12,8 +13,8 @@ public class Attendance {
         checkAttendanceStatus();
     }
 
-    private void checkAttendanceStatus() {
-        this.attendanceStatus = AttendanceDay.checkStatusByDateTime(attendanceTime);
+    public boolean comPareDate(LocalDate date) {
+        return attendanceTime.toLocalDate().equals(date);
     }
 
     public LocalDateTime getAttendanceTime() {
@@ -30,5 +31,9 @@ public class Attendance {
                 "attendanceTime=" + attendanceTime +
                 ", attendanceStatus=" + attendanceStatus +
                 '}';
+    }
+
+    private void checkAttendanceStatus() {
+        this.attendanceStatus = AttendanceDay.checkStatusByDateTime(attendanceTime);
     }
 }

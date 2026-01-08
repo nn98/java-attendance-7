@@ -1,6 +1,7 @@
 package attendance.controller;
 
 import attendance.dto.AttendanceLine;
+import attendance.dto.AttendanceUpdate;
 import attendance.service.Service;
 import attendance.view.OutputView;
 import java.util.List;
@@ -52,7 +53,15 @@ public class Controller {
     }
 
     private void update() {
+        String crewName = inputHandler.inputCrewName();
+        service.isCrewExist(crewName);
 
+        int date = inputHandler.inputDate();
+        service.isSchoolDay(date);
+
+        String updateTime = inputHandler.inputTime();
+        AttendanceUpdate attendanceUpdate = service.updateAttendance(crewName, date, updateTime);
+        outputView.printLine(attendanceUpdate.toString());
     }
 
     private void select() {

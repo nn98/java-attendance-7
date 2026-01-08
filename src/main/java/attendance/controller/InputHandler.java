@@ -27,4 +27,15 @@ public class InputHandler {
         String attendanceTime = inputView.readLine();
         return attendanceTime;
     }
+
+    public int inputDate() {
+        String day = inputView.readLine();
+        int date = Integer.parseInt(day);
+        return date;
+    }
+
+    public String inputTime() {
+        String time = inputView.readLine();
+        return time;
+    }
 }
