@@ -10,8 +10,8 @@ import attendance.util.AttendancesInitializer;
 import attendance.util.CsvLoader;
 import attendance.view.InputView;
 import attendance.view.OutputView;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
-import java.time.Clock;
 import java.time.LocalDate;
 
 public class Config {
@@ -24,7 +24,6 @@ public class Config {
     private CsvLoader csvLoader;
     private AttendancesInitializer attendancesInitializer;
     private Service service;
-    private Clock clock;
     private LocalDate today;
     private AttendanceMapper attendanceMapper;
     private InputHandler inputHandler;
@@ -58,16 +57,9 @@ public class Config {
         return service;
     }
 
-    private Clock clock() {
-        if (clock == null) {
-            clock = Clock.systemDefaultZone();
-        }
-        return clock;
-    }
-
     private LocalDate today() {
         if (today == null) {
-            today = LocalDate.now();
+            today = DateTimes.now().toLocalDate();
         }
         return today;
     }
