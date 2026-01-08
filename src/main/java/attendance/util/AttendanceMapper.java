@@ -22,22 +22,11 @@ public class AttendanceMapper {
     }
 
     public static AttendanceLine toAttendanceLine(Attendance attendance) {
-        LocalDateTime attendanceTime = attendance.getAttendanceTime();
+        LocalDate attendanceDate = attendance.getAttendanceDate();
+        LocalTime attendanceTime = attendance.getAttendanceTime();
         Status attendanceStatus = attendance.getAttendanceStatus();
-        AttendanceLine attendanceLine = new AttendanceLine(attendanceTime, attendanceStatus);
+        AttendanceLine attendanceLine = new AttendanceLine(attendanceDate, attendanceTime, attendanceStatus);
         return attendanceLine;
-    }
-
-    private LocalDateTime parseAttendanceDateTime(String attendanceTime) {
-        try {
-            if (attendanceTime.contains("-")) {
-                return LocalDateTime.parse(attendanceTime, CSV_DATE_TIME_FORMAT);
-            }
-            LocalTime time = LocalTime.parse(attendanceTime, TIME_FORMAT);
-            return LocalDateTime.of(today, time);
-        } catch (Exception exception) {
-            throw MissionError.INVALID_INPUT.exception();
-        }
     }
 
     public Attendance todayTimeToAttendance(String attendanceTime) {
@@ -55,5 +44,22 @@ public class AttendanceMapper {
         List<AttendanceLine> attendanceLines = new ArrayList<>();
         attendances.forEach(attendance -> attendanceLines.add(toAttendanceLine(attendance)));
         return attendanceLines;
+    }
+
+    public Attendance toAbsenceAttendance(LocalDate localDate) {
+        Attendance attendance = new Attendance(localDate);
+        return attendance;
+    }
+
+    private LocalDateTime parseAttendanceDateTime(String attendanceTime) {
+        try {
+            if (attendanceTime.contains("-")) {
+                return LocalDateTime.parse(attendanceTime, CSV_DATE_TIME_FORMAT);
+            }
+            LocalTime time = LocalTime.parse(attendanceTime, TIME_FORMAT);
+            return LocalDateTime.of(today, time);
+        } catch (Exception exception) {
+            throw MissionError.INVALID_INPUT.exception();
+        }
     }
 }

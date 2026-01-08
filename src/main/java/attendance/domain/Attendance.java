@@ -2,22 +2,39 @@ package attendance.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Attendance {
 
-    LocalDateTime attendanceTime;
+    LocalDate attendanceDate;
+    LocalTime attendanceTime;
     Status attendanceStatus;
 
     public Attendance(LocalDateTime attendanceTime) {
-        this.attendanceTime = attendanceTime;
+        this.attendanceDate = attendanceTime.toLocalDate();
+        this.attendanceTime = attendanceTime.toLocalTime();
         checkAttendanceStatus();
     }
 
-    public boolean comPareDate(LocalDate date) {
-        return attendanceTime.toLocalDate().equals(date);
+    public Attendance(LocalDate attendanceDate) {
+        this.attendanceDate = attendanceDate;
+        this.attendanceTime = null;
+        this.attendanceStatus = Status.ABSENCE;
     }
 
-    public LocalDateTime getAttendanceTime() {
+    public boolean comPareDate(LocalDate date) {
+        return attendanceDate.equals(date);
+    }
+
+    public LocalDateTime getAttendanceDateTime() {
+        return LocalDateTime.of(attendanceDate, attendanceTime);
+    }
+
+    public LocalDate getAttendanceDate() {
+        return attendanceDate;
+    }
+
+    public LocalTime getAttendanceTime() {
         return attendanceTime;
     }
 
@@ -34,6 +51,6 @@ public class Attendance {
     }
 
     private void checkAttendanceStatus() {
-        this.attendanceStatus = AttendanceDay.checkStatusByDateTime(attendanceTime);
+        this.attendanceStatus = AttendanceDay.checkStatusByDateTime(getAttendanceDateTime());
     }
 }

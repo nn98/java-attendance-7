@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Attendances {
 
@@ -28,7 +29,7 @@ public class Attendances {
     public AttendanceLine insertAttendance(Crew crew, Attendance attendance) {
         List<Attendance> attendanceHistory = attendances.computeIfAbsent(crew, attendanceList -> new ArrayList<>());
         attendanceHistory.add(attendance);
-        attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceTime));
+        attendanceHistory.sort(Comparator.comparing(Attendance::getAttendanceDate));
         return AttendanceMapper.toAttendanceLine(attendance);
     }
 
@@ -43,7 +44,6 @@ public class Attendances {
     }
 
     public Crew getCrewIfExist(String crewName) {
-        System.out.println(crewName);
         Crew crew = new Crew(crewName);
         return attendances.keySet().stream()
                 .filter(c -> c.equals(crew))
@@ -56,16 +56,26 @@ public class Attendances {
         return updateAttendance(attendanceList, updateDateTime);
     }
 
+    public Set<Crew> getCrews() {
+        return attendances.keySet();
+    }
+
     private AttendanceUpdate updateAttendance(List<Attendance> attendanceList, LocalDateTime updateDateTime) {
         LocalDate updateDate = updateDateTime.toLocalDate();
-        System.out.println(updateDate);
-        Attendance before = attendanceList.stream().filter(attendance -> {
-            return attendance.comPareDate(updateDate);
-        }).findFirst().orElseThrow();
+        Attendance before = getAttendanceByDate(attendanceList, updateDate);
         int targetIndex = attendanceList.indexOf(before);
         Attendance after = new Attendance(updateDateTime);
         attendanceList.set(targetIndex, after);
         return getAttendanceUpdate(before, after);
+    }
+
+    public Attendance getAttendanceByDate(List<Attendance> attendanceList, LocalDate updateDate) {
+        return attendanceList.stream()
+                .filter(attendance -> {
+                    return attendance.comPareDate(updateDate);
+                })
+                .findFirst()
+                .orElse(null);
     }
 
     private AttendanceUpdate getAttendanceUpdate(Attendance before, Attendance after) {

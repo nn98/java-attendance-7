@@ -4,6 +4,7 @@ import attendance.controller.Controller;
 import attendance.controller.InputHandler;
 import attendance.controller.InputTemplate;
 import attendance.domain.Attendances;
+import attendance.domain.SchoolDays;
 import attendance.service.Service;
 import attendance.util.AttendanceMapper;
 import attendance.util.AttendancesInitializer;
@@ -28,6 +29,7 @@ public class Config {
     private AttendanceMapper attendanceMapper;
     private InputHandler inputHandler;
     private InputTemplate inputTemplate;
+    private SchoolDays schoolDays;
 
     public Controller controller() {
         if (controller == null) {
@@ -64,6 +66,13 @@ public class Config {
         return today;
     }
 
+    private SchoolDays schoolDays() {
+        if (schoolDays == null) {
+            schoolDays = new SchoolDays(today());
+        }
+        return schoolDays;
+    }
+
     private AttendanceMapper attendanceMapper() {
         if (attendanceMapper == null) {
             attendanceMapper = new AttendanceMapper(today());
@@ -77,7 +86,7 @@ public class Config {
 
     private AttendancesInitializer attendancesInitializer() {
         if (attendancesInitializer == null) {
-            attendancesInitializer = new AttendancesInitializer(csvLoader(), attendanceMapper());
+            attendancesInitializer = new AttendancesInitializer(csvLoader(), attendanceMapper(), schoolDays(), today());
         }
         return attendancesInitializer;
     }
